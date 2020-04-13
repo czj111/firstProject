@@ -7,24 +7,26 @@
 	<script src="js/jquery-1.11.0.min.js"></script>
 	<script>
 		$(function(){
-		    $("#btnUpLoad").click(function(){
-            var formData = new FormData();
-            formData.append('file', $('#file')[0].files[0]);
-            $.ajax({
-                url: 'upload',
-                type: 'POST',
-                cache: false,
-                data: formData,
-                processData: false,
-                contentType: false
-            });
-            });
+		    $("#submit").click(uploadFile);
 		});
+		function uploadFile(){
+		    $("#uploadFile").submit(false);
+		    var data=new FormData($("#uploadFile")[0]);
+            $.ajax({
+				type:"POST",
+				url:"upLoadServlet",
+				data:data,
+				processData: false,
+				contentType: false
+			});
+		}
 	</script>
 </head>
 <body>
-	<p>文件上传</p>
-	<input type="file" id="file">
-	<button id="btnUpLoad">提交</button>
+<form id="uploadFile">
+	<input type="file" name="file">
+	<button id="submit">提交</button>
+</form>
+
 </body>
 </html>
