@@ -1,5 +1,9 @@
 package cn.itcast.travel.web.servlet;
 
+import cn.itcast.travel.domain.ResultInfo;
+import cn.itcast.travel.service.impl.ManagerService;
+import cn.itcast.travel.service.impl.ManagerServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -42,20 +46,29 @@ public class upLoadServlet extends HttpServlet {
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
+
+        //文件名
+        String projectName=null;
+        String examTime=null;
+        String Name=null;
         for(FileItem item:items)
         {
             //判断是否为普通表单项
             if(item.isFormField())
             {
-                String fieldName=item.getFieldName();
-                String fieldValue=item.getString("UTF-8");
-                out.println(fieldName+"="+fieldValue);
+                if("projectName".equals(item.getFieldName()))
+                {
+                    projectName=item.getString("UTF-8");
+                }
+                if("examTime".equals(item.getFieldName()))
+                {
+                    examTime=item.getString("UTF-8");
+                }
             }
             else
             {
-                String Name=item.getName();
                 //防止文件名重复
-                Name=System.currentTimeMillis()+Name;
+                Name=projectName+examTime+System.currentTimeMillis()+item.getName();
                 InputStream uploadedStream = item.getInputStream();
                 byte[] buf=new byte[1024];
                 String path=this.getServletContext().getRealPath("/images");
@@ -71,6 +84,21 @@ public class upLoadServlet extends HttpServlet {
                 item.delete();
             }
         }
+        //将文件名存储到数据库
+        ManagerServiceImpl managerService = new ManagerServiceImpl();
+        ResultInfo resultInfo = new ResultInfo();
+        boolean flag=managerService.addFileName(Name);
+        if(flag)
+        {
+            resultInfo.setErrorMsg("上传成功");
+        }
+        else{
+            resultInfo.setErrorMsg("上传失败");
+        }
+        resultInfo.setFlag(flag);
+        response.setContentType("application/json;charset=utf-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.getWriter().write(objectMapper.writeValueAsString(resultInfo));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

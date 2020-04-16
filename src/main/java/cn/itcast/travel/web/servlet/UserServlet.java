@@ -1,7 +1,9 @@
 package cn.itcast.travel.web.servlet;
 
+import cn.itcast.travel.domain.Paging;
 import cn.itcast.travel.domain.ResultInfo;
 import cn.itcast.travel.domain.User;
+import cn.itcast.travel.service.impl.AllServiceImpl;
 import cn.itcast.travel.service.impl.serviceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +22,7 @@ import java.util.Map;
 @WebServlet("/user/*")
 public class UserServlet extends BaseServlet {
     serviceImpl service = new serviceImpl();
+    AllServiceImpl allService=new AllServiceImpl();
 
     /**
      * 检查验证码是否正确
@@ -198,5 +201,27 @@ public class UserServlet extends BaseServlet {
         session.removeAttribute("username");
     }
 
+    /**
+     * 文件下载页
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void downLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Paging paging = new Paging();
+        try {
+            BeanUtils.populate(paging,parameterMap);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        paging = allService.findAll(paging);
+        response.setContentType("application/json;charset=utf-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.getWriter().write(objectMapper.writeValueAsString(paging));
+    }
 
 }
