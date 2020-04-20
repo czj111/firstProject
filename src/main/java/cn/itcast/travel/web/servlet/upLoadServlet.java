@@ -32,7 +32,7 @@ public class upLoadServlet extends HttpServlet {
         String path_temp=this.getServletContext().getRealPath("/temp");
         File file_temp=new File(path_temp);
         // Create a factory for disk-based file items
-        DiskFileItemFactory factory = new DiskFileItemFactory(1024*1024,file_temp);
+        DiskFileItemFactory factory = new DiskFileItemFactory(1024*1024*600,file_temp);
         // Create a new file upload handler
         ServletFileUpload upload = new ServletFileUpload(factory);
         //解决文件名乱码问题。
@@ -69,18 +69,12 @@ public class upLoadServlet extends HttpServlet {
             {
                 //防止文件名重复
                 Name=projectName+examTime+System.currentTimeMillis()+item.getName();
-                InputStream uploadedStream = item.getInputStream();
-                byte[] buf=new byte[1024];
                 String path=this.getServletContext().getRealPath("/images");
-                File uploadedFile = new File(path,Name);
-                FileOutputStream fileOutputStream = new FileOutputStream(uploadedFile);
-                int len=-1;
-                if((len=uploadedStream.read(buf))!=-1)
-                {
-                    fileOutputStream.write(buf,0,len);
+                try{
+                    item.write(new File(path,Name));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                fileOutputStream.close();
-                uploadedStream.close();
                 item.delete();
             }
         }
