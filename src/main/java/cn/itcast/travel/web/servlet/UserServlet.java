@@ -198,7 +198,7 @@ public class UserServlet extends BaseServlet {
      */
     public void exit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.removeAttribute("username");
+        session.invalidate();
     }
 
     /**
