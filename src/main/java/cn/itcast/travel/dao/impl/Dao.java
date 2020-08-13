@@ -1,6 +1,11 @@
 package cn.itcast.travel.dao.impl;
 
+import cn.itcast.travel.domain.ExamTheme;
+import cn.itcast.travel.domain.Function;
 import cn.itcast.travel.domain.User;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface Dao {
     /**
@@ -15,7 +20,7 @@ public interface Dao {
      * @param user
      * @return
      */
-    Boolean registerUser(User user);
+    boolean registerUser(User user);
 
     /**
      * 激活用户
@@ -30,4 +35,30 @@ public interface Dao {
      * @return
      */
     User exitUser(User user);
+
+    /**
+     * 获取所有功能
+     */
+    List<Function> findAllFunc();
+
+    /**
+     * 确认题库中的试题准备充足
+     * @param name
+     * @return
+     */
+    boolean examCount(String name);
+
+    /**
+     * 通过课程名找到相关题库,提取固定数量的单选题
+     * @param name
+     * @return
+     */
+    List<ExamTheme> examSin(String name);
+
+    /**
+     * 通过课程名找到相关题库,提取固定数量的多选题
+     * @param name
+     * @return
+     */
+    List<ExamTheme> examMul(String name);
 }

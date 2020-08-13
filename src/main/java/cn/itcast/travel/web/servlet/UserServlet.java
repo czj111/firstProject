@@ -1,8 +1,6 @@
 package cn.itcast.travel.web.servlet;
 
-import cn.itcast.travel.domain.Paging;
-import cn.itcast.travel.domain.ResultInfo;
-import cn.itcast.travel.domain.User;
+import cn.itcast.travel.domain.*;
 import cn.itcast.travel.service.impl.AllServiceImpl;
 import cn.itcast.travel.service.impl.serviceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet("/user/*")
@@ -59,9 +60,10 @@ public class UserServlet extends BaseServlet {
      */
     public void rgUserName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=utf-8");
-        String username = request.getParameter("username");
+        String username = URLDecoder.decode(request.getParameter("username"));
+        System.out.println(username);
         String result=service.rgUserName(username);
-        System.out.println(result);
+//        System.out.println(result);
         response.getWriter().write(result);
 
     }
@@ -119,6 +121,10 @@ public class UserServlet extends BaseServlet {
         if(code!=null || code!="")
         {
             boolean flag=service.activeCode(code);
+            if(flag)
+            {
+                response.getWriter().write("激活成功！");
+            }
         }
     }
 
@@ -159,7 +165,7 @@ public class UserServlet extends BaseServlet {
             e.printStackTrace();
         }
 //        System.out.println(result);
-
+        response.setContentType("text/html;charset=utf-8");
 //        6.返回结果
         response.getWriter().write(result);
     }
@@ -202,7 +208,7 @@ public class UserServlet extends BaseServlet {
     }
 
     /**
-     * 文件下载页
+     * 文件下载页（文件显示）
      * @param request
      * @param response
      * @throws ServletException
@@ -218,10 +224,60 @@ public class UserServlet extends BaseServlet {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        paging = allService.findAll(paging);
+//        System.out.println("页号"+paging.getNowPage());
+//        System.out.println("页数"+paging.getItems());
+        if(paging.getMsg()==null || paging.getMsg()=="") {
+            paging = allService.findAll(paging);
+        }
+        else{
+            paging = allService.findFilesByName(paging);
+        }
         response.setContentType("application/json;charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
         response.getWriter().write(objectMapper.writeValueAsString(paging));
     }
 
+    /**
+     * 获取考试题目
+     */
+    public void acceptExam(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        String name = request.getParameter("name");
+//        1.获取试题
+        List<ExamTheme> examThemes = service.acceptExam(name);
+//        System.out.println(examThemes);
+//        传给用户的信息
+        ExamInfo examInfo = new ExamInfo();
+        if(examThemes!=null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("exam",examThemes);
+//        2.传给用户的题目
+            List<Exam> exam = new ArrayList<>();
+            for (ExamTheme examTheme : examThemes) {
+                exam.add(new Exam(examTheme.getTheme(),
+                        examTheme.getAnswerA(),
+                        examTheme.getAnswerB(),
+                        examTheme.getAnswerC(),
+                        examTheme.getAnswerD()));
+            }
+            examInfo.setFlag(true);
+            examInfo.setExam(exam);
+        }
+        else {
+            examInfo.setFlag(false);
+            examInfo.setMsg("题库还未准备好，请稍后再试");
+        }
+        response.setContentType("application/json;charset=utf-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.getWriter().write(objectMapper.writeValueAsString(examInfo));
+    }
+
+    /**
+     * 获取功能内容
+     */
+    public void findAllFunc(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        List<Function> allFunc = service.findAllFunc();
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().write(writeValueAsString(allFunc));
+
+    }
 }

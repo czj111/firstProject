@@ -30,6 +30,7 @@
     							<td class="td_right">
     								<input type="text" id="username" name="username" placeholder="请输入账号">
     							</td>
+								<td class="username-errormsg red"></td>
     						</tr>
     						<tr>
     							<td class="td_left">
@@ -38,6 +39,7 @@
     							<td class="td_right">
     								<input type="text" id="password" name="password" placeholder="请输入密码">
     							</td>
+								<td class="password-errormsg red"></td>
     						</tr>
     						<tr>
     							<td class="td_left">
@@ -46,23 +48,26 @@
     							<td class="td_right">
     								<input type="text" id="email" name="email" placeholder="请输入Email">
     							</td>
+								<td class="email-errormsg red"></td>
     						</tr>
-    						<tr>
-    							<td class="td_left">
-    								<label for="name">姓名</label>
-    							</td>
-    							<td class="td_right">
-    								<input type="text" id="name" name="name" placeholder="请输入真实姓名">
-    							</td>
-    						</tr>
-    						<tr>
-    							<td class="td_left">
-    								<label for="telephone">手机号</label>
-    							</td>
-    							<td class="td_right">
-    								<input type="text" id="telephone" name="telephone" placeholder="请输入您的手机号">
-    							</td>
-    						</tr>
+    						<!--<tr>-->
+    							<!--<td class="td_left">-->
+    								<!--<label for="name">姓名</label>-->
+    							<!--</td>-->
+    							<!--<td class="td_right">-->
+    								<!--<input type="text" id="name" name="name" placeholder="请输入真实姓名">-->
+    							<!--</td>-->
+								<!--<td class="name-errormsg"></td>-->
+    						<!--</tr>-->
+    						<!--<tr>-->
+    							<!--<td class="td_left">-->
+    								<!--<label for="telephone">手机号</label>-->
+    							<!--</td>-->
+    							<!--<td class="td_right">-->
+    								<!--<input type="text" id="telephone" name="telephone" placeholder="请输入您的手机号">-->
+    							<!--</td>-->
+								<!--<td class="telephone-errormsg"></td>-->
+    						<!--</tr>-->
     						<tr>
     							<td class="td_left">
     								<label for="sex">性别</label>
@@ -71,6 +76,7 @@
     								<input type="radio" id="sex" name="sex" value="男" checked> 男
     								<input type="radio" name="sex" value="女"> 女
     							</td>
+								<td class="sex-errormsg"></td>
     						</tr>
     						<tr>
     							<td class="td_left">
@@ -79,6 +85,7 @@
     							<td class="td_right">
     								<input type="date" id="birthday" name="birthday" placeholder="年/月/日">
     							</td>
+								<td class="birthday-errormsg red"></td>
     						</tr>
     						<tr>
     							<td class="td_left">
@@ -88,6 +95,7 @@
     								<input type="text" id="check" name="check" class="check">
     								<img src="checkCode" height="32px" alt="" id="checkCode">
     							</td>
+								<td class="check-errormsg red"></td>
     						</tr>
     						<tr>
     							<td class="td_left"> 
@@ -96,6 +104,7 @@
     								<input type="submit" class="submit" value="注册">
 									<span id="msg" style="color: red;"></span>
     							</td>
+								<td class="submit-errormsg"></td>
     						</tr>
     					</table>
     				</form>
@@ -103,7 +112,7 @@
     			<div class="rg_form_right">
     				<p>
     					已有账号？
-    					<a href="#">立即登录</a>
+    					<a href="login.html">立即登录</a>
     				</p>
     			</div>
     		</div>

@@ -20,7 +20,7 @@
                 var message=null;
                 $.ajax({
                     type:"POST",
-                    url:"upLoadServlet",
+                    url:"manager/upLoadServlet",
                     data:data,
 					async:false,
                     processData: false,
@@ -78,15 +78,30 @@
 		   }
 		}
 	</script>
+	<style>
+		#uploadFile {
+			width: 600px;
+			margin: 50px auto 0;
+		}
+		.error {
+			height: 30px;
+			line-height: 30px;
+			margin: 5px 0 0 0;
+		}
+		#submit{
+			margin-left: 127px;
+		}
+	</style>
 </head>
 <body>
+<div><a href="manager.html">首页</a></div>
 <form id="uploadFile">
-	<p id="error_project"></p>
-	<input id="projectName" name="projectName">
-	<p id="error_time"></p>
-	<input id="examTime" name="examTime">
+	<p id="error_project" class="error"></p>
+	<span>试卷科目：</span><input id="projectName" name="projectName">
+	<p id="error_time" class="error"></p>
+	<span>试卷时间：</span><input id="examTime" name="examTime">
 	<input type="file" name="file" id="file" accep=".doc,.docx,image/*" >
-	<p id="error_file"></p>
+	<p id="error_file" class="error"></p>
 	<button id="submit">提交</button>
 </form>
 <!--<a href="images/test2020-4-161587047506323upLoadTest.txt">xiazai</a>-->

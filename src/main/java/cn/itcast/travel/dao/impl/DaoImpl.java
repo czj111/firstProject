@@ -1,5 +1,7 @@
 package cn.itcast.travel.dao.impl;
 
+import cn.itcast.travel.domain.ExamTheme;
+import cn.itcast.travel.domain.Function;
 import cn.itcast.travel.domain.User;
 import cn.itcast.travel.util.JDBCUtils;
 import org.springframework.dao.DataAccessException;
@@ -7,6 +9,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class DaoImpl implements Dao{
@@ -25,7 +29,7 @@ public class DaoImpl implements Dao{
     }
 
     @Override
-    public Boolean registerUser(User user) {
+    public boolean registerUser(User user) {
         String sql="insert into tab_user(username,password,name,birthday,sex,telephone,email,status,code) values(?,?,?,to_date(?,'yyyy-mm-dd'),?,?,?,?,?)";
         jdbc.update(sql,user.getUsername(),
                 user.getPassword(),
@@ -67,4 +71,44 @@ public class DaoImpl implements Dao{
         return user1;
 
     }
+
+    @Override
+    public List<Function> findAllFunc() {
+        String sql="select * from tab_function";
+        return jdbc.query(sql,new BeanPropertyRowMapper<Function>(Function.class));
+    }
+
+    @Override
+    public boolean examCount(String name) {
+        System.out.println("----------------");
+        String sql="select count(*) from "+name+" where type = ?";
+        Integer sin=null;
+        Integer Mul=null;
+        try {
+            sin = jdbc.queryForObject(sql, Integer.class,  "单");
+            Mul = jdbc.queryForObject(sql, Integer.class,  "多");
+        } catch (DataAccessException e) {
+            System.out.println(sin+"---"+Mul);
+            return false;
+        }
+        System.out.println(sin+"====="+Mul);
+        if(sin>=10 && Mul>=10) {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    @Override
+    public List<ExamTheme> examSin(String name) {
+        String sql="select * from (select * from (select * from "+name+" where type='单') order by dbms_random.value) where rownum< 11";
+        return jdbc.query(sql, new BeanPropertyRowMapper<ExamTheme>(ExamTheme.class));
+    }
+
+    @Override
+    public List<ExamTheme> examMul(String name) {
+        String sql="select * from (select * from (select * from "+name+" where type='多') order by dbms_random.value) where rownum< 11";
+        return jdbc.query(sql, new BeanPropertyRowMapper<ExamTheme>(ExamTheme.class));
+    }
+
 }

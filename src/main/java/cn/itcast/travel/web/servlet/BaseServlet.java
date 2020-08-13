@@ -1,5 +1,8 @@
 package cn.itcast.travel.web.servlet;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,10 +17,10 @@ public class BaseServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        1.获取uri
         String requestURI = req.getRequestURI();
-        System.out.println(requestURI);
+//        System.out.println(requestURI);
 //        2.获取方法名
         String methodName = requestURI.substring(requestURI.lastIndexOf("/") + 1);
-        System.out.println(methodName);
+//        System.out.println(methodName);
         try {
 //            3.调用方法
 //            Method Class.getMethod()的作用是获得对象所声明的公开方法
@@ -32,5 +35,9 @@ public class BaseServlet extends HttpServlet {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+    public String writeValueAsString(Object obj) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(obj);
     }
 }

@@ -1,7 +1,11 @@
 package cn.itcast.travel.service.impl;
 
+import cn.itcast.travel.domain.ExamTheme;
+import cn.itcast.travel.domain.Function;
 import cn.itcast.travel.domain.ResultInfo;
 import cn.itcast.travel.domain.User;
+
+import java.util.List;
 
 public interface service {
 
@@ -32,4 +36,14 @@ public interface service {
      * @return
      */
     ResultInfo login(User user);
+
+    /**
+     * 获取功能
+     */
+    List<Function> findAllFunc();
+
+    /**
+     * 获取测试题目
+     */
+    List<ExamTheme> acceptExam(String name);
 }

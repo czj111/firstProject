@@ -1,0 +1,89 @@
+<script>
+	$(function(){
+	    // 获取所有功能
+		// $.ajax({
+        //     type:"GET",
+        //     url:"user/findAllFunc",
+        //     success:function(data){
+        //         var str="";
+        //         console.log(data);
+        //         for(var i=0;i<data.length;i++)
+		// 		{
+		// 		    str=str+"<li><a href="javascript:func("+data[i].cid+")">"+data[i].funcName+"</a></li>";
+		// 		}
+        //         $("#function_content").html(str);
+        //     }
+		// });
+        func();
+	});
+    window.addEventListener("hashchange",func,false);
+	//加载相应功能
+	function func(){
+	    var cid;
+        var value=window.location.hash;
+        cid=value.substring(1,2);
+        // console.log("function.html-func-功能号："+cid);
+	    if(cid==null || cid=="")
+		{
+		    // alert("function.html-func-判断cid");
+            location.href="index.html#"+1;
+		}
+        var value=window.location.hash;
+        var cid=value.substring(1,2);
+        // 下载文件功能页
+        if(cid==1)
+        {
+            $.get("downLoad.html",function(data) {
+                $("#content_right").html(data);
+            });
+        }
+        //考试页
+        if(cid==2)
+		{
+            $.get("startExam.html",function(data) {
+                $("#content_right").html(data);
+            });
+		}
+        if(cid==3)
+		{
+            $.get("showScore.html",function(data) {
+                $("#content_right").html(data);
+            });
+		}
+        //删除激活状态
+		var delActive=$("#function_content")[0].getElementsByClassName("active")[0];
+		if(delActive!=null)
+		{
+		    delActive.className="";
+		}
+
+        // 实现相应功能激活
+        var nodes=$("#function_content")[0].getElementsByTagName("li");
+        nodes[cid-1].className="active";
+	}
+	function change(cid)
+	{
+	   location.href="index.html#"+cid;
+	}
+</script>
+<!--导入左侧功能栏-->
+<div id="content_left">
+	<div class="function_banner">
+		<ul id="function_content">
+			<li>
+				<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+				<a href="javascript:change(1)">试卷库</a>
+			</li>
+			<li>
+				<span class="glyphicon glyphicon-pencil"></span>
+				<a href="javascript:change(2)">考试</a>
+			</li>
+			<li>
+				<span class="glyphicon glyphicon-check"></span>
+				<a href="javascript:change(3)">成绩</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<!--导入功能-->
+<div id="content_right"></div>

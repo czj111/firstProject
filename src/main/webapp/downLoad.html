@@ -1,160 +1,143 @@
 
-	<script>
-		$(function(){
-		    //判断href
-            var value=window.location.hash;
-			var parameter=value.substr(3);
-			var nowPage;
-			var msg="";
-			console.log("parameter:"+parameter);
-			if(parameter==null || parameter=="")
-			{
-			    location.href="index.html#1&nowPage=1";
-                nowPage=1;
-                console.log("--------------");
-			}
-			else
-			{
-			    var prarsms=parameter.split('&');
-			    for(var i=0;i<prarsms.length;i++)
-				{
-                    prarsms[i]=prarsms[i].split("=");
-				}
-                console.log(prarsms);
-			    if(prarsms[0][0]=="nowPage")
-				{
-                    nowPage=prarsms[0][1];
-                    console.log(nowPage);
-				}
-			    if(prarsms.length>1) {
-                    if (prarsms[1][0] == "msg") {
-                        msg = decodeURI(prarsms[1][1]);
-                        console.log("msg" + msg);
-                    }
-                }
+<script>
+    $(function(){
+        //判断href
+        var value=window.location.hash;
+        var parameter=value.substr(3);
+        if(parameter==null || parameter=="")
+        {
+            location.href="index.html#1&nowPage=1";
+        }
+        else {
+            showPage();
+        }
+        $("#btnSearch").click(function(){
+            var value=$("#search").val();
+            console.log("value"+value);
+            changeHref(1,value);
+        });
+    });
+    // window.addEventListener("hashchange",showPage,false);
 
-			}
-            showPage(nowPage,msg);
-			$("#btnSearch").click(function(){
-			    var value=$("#search").val();
-			    console.log("value"+value);
-			    showPage(1,value);
-			});
-
-		});
-		function showPage(nowPage,msg){
-		    if(msg==null) {
-                msg="";
+    function showPage(){
+        var value=window.location.hash;
+        // console.log("downLoad.html-showPage():"+value);
+        var nowPage;
+        var msg="";
+        var parameter=value.substr(3);
+        var prarsms=parameter.split('&');
+        for(var i=0;i<prarsms.length;i++)
+        {
+            prarsms[i]=prarsms[i].split("=");
+        }
+        if(prarsms[0][0]=="nowPage")
+        {
+            nowPage=prarsms[0][1];
+            // console.log("现在页数"+nowPage);
+        }
+        if(prarsms.length>1) {
+            if (prarsms[1][0] == "msg") {
+                msg = decodeURI(prarsms[1][1]);
+                // console.log("msg" + msg);
             }
-		    msg=encodeURI(msg);
-		    window.scroll(0,0);
-            var content="";//下载文件内容
-            var pagintion="";//页码内容
-			var href="index.html#1&nowPage="+nowPage;
-			if(msg!=null && msg!="")
-			{href=href+"&msg="+msg;}
-            console.log("href:"+href);
-            location.href=href;
-            $.ajax({
-                type: "POST",
-                url: "user/downLoad",
-                data: {nowPage:nowPage,items:4,msg:decodeURI(msg)},
-                async: false,
-                success:function(data){
-                    if(data.msg=="")
-					{
-                        data.msg=null;
-					}
-                    console.log("fanhui:"+data.msg);
-                    //搜索页码结果
-                    //上一页
-					var pre=nowPage-1;
-					if(nowPage!=1) {
-                        pagintion = pagintion + '<li onclick="showPage(' + pre+','+data.msg+ ')">\n' +
-                            '<a href="javascript:void(0)">\n' +
-                            '<span aria-hidden="true">&laquo;</span>\n' +
-                            '</a>\n' +
-                            '</li>';
-                    }
-					if(nowPage>=7)
-					{
-                        for (var i = nowPage-5; i <= parseInt(nowPage)+4; i++) {
-                            if (nowPage == i) {
-                                pagintion = pagintion + '<li class="active"><a href="javascript:showPage(' + i+','+data.msg + ')">' + i + '</a></li>';
-
-                            } else {
-                                pagintion = pagintion + '<li><a href="javascript:showPage(' + i+','+data.msg + ')">' + i + '</a></li>';
-                            }
-                        }
-					}
-					else {
-                        for (var i = 1; i <= data.count; i++) {
-                            if (nowPage == i) {
-                                pagintion = pagintion + '<li class="active"><a href="javascript:showPage(' + i+','+data.msg + ')">' + i + '</a></li>';
-
-                            } else {
-                                pagintion = pagintion + '<li><a href="javascript:showPage(' + i+','+data.msg + ')">' + i + '</a></li>';
-                            }
-                        }
-                    }
-                    //下一页
-					var next=nowPage;
-                    next=++next;
-                    if(nowPage!=data.count) {
-                        pagintion = pagintion + '<li onclick="showPage(' + next+','+data.msg + ')">\n' +
-                            '<a href="javascript:void(0)">\n' +
-                            '<span aria-hidden="true" class="next">&raquo;</span>\n' +
-                            '</a>\n' +
-                            '</li>';
-                    }
-                    $("#page").html(pagintion);
-                    // 搜索文件结果
-                    var pages=data["pages"];
-                    for(var i=0;i<pages.length;i++)
-                    {
-                        var con='"'+pages[i].name+'"';
-                        content=content+"<tr><td><span>"+pages[i].name+"</span></td><td><a href='javascript:void(0)' onclick='downLoad("+con+")'>下载</a></td></tr> ";
-                    }
-                    $("#fileContent").html(content);
+        }
+        if(msg==null) {
+            msg="";
+        }
+        window.scroll(0,0);
+        var content="";//下载文件内容
+        var pagintion="";//页码内容
+        $.ajax({
+            type: "POST",
+            url: "user/downLoad",
+            data: {nowPage:nowPage,items:4,msg:msg},
+            async: false,
+            success:function(data){
+                if(data.msg=="")
+                {
+                    data.msg=null;
                 }
-            });
-		}
+                //搜索页码结果
+                //上一页
+                var pre=nowPage-1;
+                var preMsg=pre+","+"'"+data.msg+"'";
+                if(nowPage!=1) {
+                    pagintion = pagintion + '<li onclick="changeHref('+preMsg+')">\n' +
+                        '<a href="javascript:void(0)">\n' +
+                        '<span aria-hidden="true">&laquo;</span>\n' +
+                        '</a>\n' +
+                        '</li>';
+                }
+                if(nowPage>=7)
+                {
+                    for (var i = nowPage-5; i <= parseInt(nowPage)+4; i++) {
+                        var nowMsg=i+","+"'"+data.msg+"'";
+                        if (nowPage == i) {
+                            pagintion = pagintion + '<li class="active"><a href="javascript:changeHref(' + nowMsg + ')">' + i + '</a></li>';
 
-		function downLoad(data)
-		{
-		    location.href="all/downLoad?fileName="+data+"&path=/images/";
-		}
-	</script>
+                        } else {
+                            pagintion = pagintion + '<li><a href="javascript:changeHref(' + nowMsg + ')">' + i + '</a></li>';
+                        }
+                    }
+                }
+                else {
+                    for (var i = 1; i <= data.count; i++) {
+                        var nowMsg=i+","+"'"+data.msg+"'";
+                        if (nowPage == i) {
+                            pagintion = pagintion + '<li class="active"><a href="javascript:changeHref(' + nowMsg +')">' + i + '</a></li>';
 
-	<style type="text/css">
-		#loadFile {
-			text-align: center;
-			margin: auto;
-			border-collapse: collapse;
-		}
-		#loadFile td {
-			height: 30px;
-			line-height: 30px;
-		}
-		#loadFile .fileName {
-			width: 200px;
-		}
-		#loadFile .loadPath {
-			width: 80px;
-		}
-		#loadFile > tbody span {
-			display: inline-block;
-			width: 200px;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			white-space: nowrap;
-		}
+                        } else {
+                            pagintion = pagintion + '<li><a href="javascript:changeHref(' + nowMsg + ')">' + i + '</a></li>';
+                        }
+                    }
+                }
+                //下一页
+                var next=nowPage;
+                next=++next;
+                var nextMsg=next+","+"'"+data.msg+"'";
+                if(nowPage!=data.count) {
+                    pagintion = pagintion + '<li onclick="changeHref('+nextMsg+')">\n' +
+                        '<a href="javascript:void(0)">\n' +
+                        '<span aria-hidden="true" class="next">&raquo;</span>\n' +
+                        '</a>\n' +
+                        '</li>';
+                }
+                pagintion=pagintion+"<div>共有<span>"+data.count+"</span>页</div>"
+                $("#page").html(pagintion);
+                // 搜索文件结果
+                var pages=data["pages"];
+                for(var i=0;i<pages.length;i++)
+                {
+                    var con='"'+pages[i].name+'"';
+                    content=content+"<tr><td class='fileName-load' title='"+pages[i].name+"'><span>"+pages[i].name+"<span></td><td><a href='javascript:void(0)' onclick='downLoad("+con+")'>下载</a></td></tr> ";
+                }
+                $("#fileContent").html(content);
+            }
+        });
+    }
 
-	</style>
+    function downLoad(data) {
+        location.href="all/downLoad?fileName="+data+"&path=/images/";
+    }
+
+    function changeHref(nowPage,msg) {
+        var href="index.html#1&nowPage="+nowPage;
+        if(msg!=null && msg!="" && msg!='null')
+        {href=href+"&msg="+msg;}
+        console.log("href:"+href);
+        location.href=href;
+    }
+
+</script>
+
+<style type="text/css">
+
+</style>
 
 <div class="function">
-	<input id="search"><button id="btnSearch">sss</button>
-	<table border="1px" id="loadFile">
+	<input id="search" placeholder="请输入搜索内容">
+	<span id="btnSearch" class="glyphicon glyphicon-search"></span>
+	<table id="loadFile">
 		<thead>
 		<tr>
 			<td class="fileName">文件名</td>
@@ -164,13 +147,13 @@
 		<tbody id="fileContent">
 		</tbody>
 	</table>
-	<div>
+	<div class="mypage">
 		<nav aria-label="Page navigation">
 			<ul class="pagination" id="page">
 			</ul>
-			<div>共有<span>5</span>页</div>
+			<!--<div>共有<span>5</span>页</div>-->
 		</nav>
 	</div>
-<!--测试数据-->
-<!--<a href='javascript:void(0)' onclick="downLoad('李四1231587398725615报名表.docx')">下载</a>-->
+	<!--测试数据-->
+	<!--<a href='javascript:void(0)' onclick="downLoad('李四1231587398725615报名表.docx')">下载</a>-->
 </div>

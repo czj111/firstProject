@@ -1,0 +1,148 @@
+<script>
+	$(function(){
+	    $.ajax({
+			type:"POST",
+			url:"all/problemName",
+			success:function(data){
+			    // console.log("-------------");
+			    var chooseProblem="";
+			    // console.log(data);
+                // console.log(data[0].name);
+                for(var i=0;i<data.length;i++)
+				{
+				    chooseProblem=chooseProblem+"<option>"+data[i].name+"</option>";
+				}
+                $("#chooseProblem").html(chooseProblem);
+			}
+		});
+	    $("#chooseProblemBtn").click(chooseProblem);
+	});
+
+	function chooseProblem() {
+		var value=$("#chooseProblem")[0].value;
+        // console.log($("#chooseProblem")[0]);
+		// console.log("选择的值为："+value);
+		// $.get("exam.html#"+value,function(data){
+        //     $($(".function")[0]).html(data);
+		// });
+		$.ajax({
+			type:"POST",
+			async:false,
+			url:"user/acceptExam",
+			data:{name:value},
+			success:function(data){
+                if(data.flag)
+                {
+                    var content="";
+                    content=content+"<div class='single'>单选</div>";
+                    for(var i=0;i<10;i++)
+					{
+					    content=content+'<div class="subject-content">\n' +
+                            '\t\t<p class="subject-question">'+(i+1)+'、'+data.exam[i].theme+'</p>\n' +
+                            '\t\t<div class="subject-options">\n' +
+                            '\t\t\t<div class="subject-options-group">\n' +
+                            '\t\t\t\t<span class="control-lable">A</span>\n' +
+                            '\t\t\t\t<input type="radio" name='+i+' value="A">\n' +
+                            '\t\t\t\t<span class="control-content">'+data.exam[i].answerA+'</span>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t\t<div class="subject-options-group">\n' +
+                            '\t\t\t\t<span class="control-lable">B</span>\n' +
+                            '\t\t\t\t<input type="radio" name='+i+' value="B">\n' +
+                            '\t\t\t\t<span class="control-content">'+data.exam[i].answerB+'</span>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t\t<div class="subject-options-group">\n' +
+                            '\t\t\t\t<span class="control-lable">C</span>\n' +
+                            '\t\t\t\t<input type="radio" name='+i+' value="C">\n' +
+                            '\t\t\t\t<span class="control-content">'+data.exam[i].answerC+'</span>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t\t<div class="subject-options-group">\n' +
+                            '\t\t\t\t<span class="control-lable">D</span>\n' +
+                            '\t\t\t\t<input type="radio" name='+i+' value="D">\n' +
+                            '\t\t\t\t<span class="control-content">'+data.exam[i].answerD+'</span>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t</div>\n' +
+                            '\t</div>';
+					}
+                    content=content+"<div class='multiply'>多选</div>";
+                    for(var i=10;i<20;i++)
+                    {
+                        content=content+'<div class="subject-content">\n' +
+                            '\t\t<p class="subject-question">'+(i+1)+'、'+data.exam[i].theme+'</p>\n' +
+                            '\t\t<div class="subject-options">\n' +
+                            '\t\t\t<div class="subject-options-group">\n' +
+                            '\t\t\t\t<span class="control-lable">A</span>\n' +
+                            '\t\t\t\t<input type="checkbox" name='+i+' value="A">\n' +
+                            '\t\t\t\t<span class="control-content">'+data.exam[i].answerA+'</span>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t\t<div class="subject-options-group">\n' +
+                            '\t\t\t\t<span class="control-lable">B</span>\n' +
+                            '\t\t\t\t<input type="checkbox" name='+i+' value="B">\n' +
+                            '\t\t\t\t<span class="control-content">'+data.exam[i].answerB+'</span>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t\t<div class="subject-options-group">\n' +
+                            '\t\t\t\t<span class="control-lable">C</span>\n' +
+                            '\t\t\t\t<input type="checkbox" name='+i+' value="C">\n' +
+                            '\t\t\t\t<span class="control-content">'+data.exam[i].answerC+'</span>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t\t<div class="subject-options-group">\n' +
+                            '\t\t\t\t<span class="control-lable">D</span>\n' +
+                            '\t\t\t\t<input type="checkbox" name='+i+' value="D">\n' +
+                            '\t\t\t\t<span class="control-content">'+data.exam[i].answerD+'</span>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t</div>\n' +
+                            '\t</div>';
+
+                    }
+                    content=content+'<button id="examBtn">提交</button>'
+                    $($(".function")[0]).html(content);
+                }
+                else{
+                    alert(data.msg);
+				}
+			}
+		})
+        $("#examBtn").click(submmitExam);
+    }
+    function submmitExam(){
+        var answer="";
+        for(var i=0;i<10;i++)
+		{
+            var a=$("input[name='"+i+"']:checked").val();
+            answer=answer+a+':';
+		}
+        for(var i=10;i<20;i++)
+        {
+            var name=document.getElementsByName(i);
+            var a="";
+            for(var j=0;j<4;j++)
+			{
+			   if(name[j].checked)
+			   {
+			       a=a+name[j].value;
+			   }
+			}
+            if(a=="")
+            {
+                a="undefined";
+            }
+            answer=answer+a+':';
+        }
+        alert(answer);
+        console.log(answer);
+        $.ajax({
+			type:"POST",
+			url:"all/saveExam",
+			data:{answer:answer},
+			success:function(data){
+			    alert(data.score);
+			    window.location="index.html#3&fre="+data.frequency;
+			}
+		});
+    }
+</script>
+<div class="function">
+	<span class="project">考试项目</span>
+	<select id="chooseProblem">
+	</select>
+	<button id="chooseProblemBtn">开始测试</button>
+</div>

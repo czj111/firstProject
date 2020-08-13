@@ -8,16 +8,38 @@
             url:"user/userName",
             success:function(data)
             {
-                console.log(data.flag);
                 if(data.flag) {
-                    var text = "欢迎你," + data.errorMsg;
+                    var text = data.errorMsg;
                     $("#username_login").html(text);
 
                 }
 
             }
         });
+        var time=["天","一","二","三","四","五","六"];
+        setInterval(function(){
+            var date=new Date();
+            var month=date.getMonth()+1;
+            $("#time-ym").html("星期"+time[date.getDay()]+date.getFullYear()+"年"+month+"月"+date.getDate()+"日");
+            $("#time-ms").html(getTime());
+        },1000);
+        $("#hover-login").hover(function(){
+            $("#dropdown-login").show();
+        })
+        $("#hover-login").mouseleave(function(){
+            $("#dropdown-login").hide();
+        })
     });
+    function getTime(){
+        var date=new Date();
+        var h=date.getHours();
+        h=h<10 ? "0"+h : h;
+        var m=date.getMinutes();
+        m=m<10 ? "0"+m : m;
+        var s=date.getSeconds();
+        s=s<10 ? "0"+s : s;
+        return h+":"+m+":"+s;
+    }
     function Exit()
     {
         $.ajax({
@@ -32,57 +54,24 @@
 
 </script>
     <header id="header">
-        <div class="top_banner">
-            <img src="images/top_banner.jpg" alt="">
+        <div class="logo"></div>
+        <div class="time">
+            <span class="time-logo glyphicon glyphicon-time"></span>
+            <span class="nowTime">
+                <i id="time-ym"></i>
+                <i id="time-ms"></i>
+            </span>
         </div>
-        <div class="shortcut">
-            <!-- 未登录状态  -->
-            <div class="login_out">
-                <a href="login.html">登录</a>
-                <a href="register.html">注册</a>
-            </div>
-            <!-- 登录状态  -->
-            <div class="login">
+        <div class="login">
+            <div id="hover-login">
                 <span id="username_login"></span>
-                <a href="myfavorite.html" class="collection">我的收藏</a>
-                <a href="javascript:Exit();">退出</a>
-            </div>
-        </div>
-        <div class="header_wrap">
-            <div class="topbar">
-                <div class="logo">
-                    <a href="/"><img src="images/logo.jpg" alt=""></a>
-                </div>
-                <div class="search">
-                    <input name="" type="text" placeholder="请输入路线名称" class="search_input" autocomplete="off">
-                    <a href="javascript:;" class="search-button">搜索</a>
-                </div>
-                <div class="hottel">
-                    <div class="hot_pic">
-                        <img src="images/hot_tel.jpg" alt="">
-                    </div>
-                    <div class="hot_tel">
-                        <p class="hot_time">客服热线(9:00-6:00)</p>
-                        <p class="hot_num">400-618-9090</p>
-                    </div>
+                <div id="dropdown-login">
+                    <span class="glyphicon glyphicon-log-out"></span>
+                    <a href="javascript:Exit();">退出</a>
                 </div>
             </div>
         </div>
     </header>
     <!-- 头部 end -->
-     <!-- 首页导航 -->
-    <div class="navitem">
-        <ul class="nav">
-            <li class="nav-active"><a href="index.html">首页</a></li>
-            <li><a href="route_list.html">门票</a></li>
-            <li><a href="route_list.html">酒店</a></li>
-            <li><a href="route_list.html">香港车票</a></li>
-            <li><a href="route_list.html">出境游</a></li>
-            <li><a href="route_list.html">国内游</a></li>
-            <li><a href="route_list.html">港澳游</a></li>
-            <li><a href="route_list.html">抱团定制</a></li>
-            <li><a href="route_list.html">全球自由行</a></li>
-            <li><a href="favoriterank.html">收藏排行榜</a></li>
-        </ul>
-    </div>
+
     
