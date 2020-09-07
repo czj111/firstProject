@@ -1,0 +1,222 @@
+#top {
+    width: 100%;
+    height: 700px;
+    /* right center是设置图片的初始位置，right是在水平方向上贴容器或浏览器页面的右侧，center是在垂直方向上居中，这两个的顺序是先定义水平位置，再定义垂直位置； */
+    background: url(../img/login_background.png) no-repeat right center;
+}
+/* webkit-scrollbar 滚动条整体部分，可以设置宽度 */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+/* ::-webkit-scrollbar-corner, 边角
+::-webkit-scrollbar-track  外层轨道 */
+::-webkit-scrollbar-corner, ::-webkit-scrollbar-track {
+    background-color: #e2e2e2;
+}
+/* ::-webkit-scrollbar-thumb 滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background-color: rgba(0,0,0,.3);
+}
+
+#top>div {
+    position: relative;
+    width: 900px;
+    margin: 0 auto;
+    /* background-color: pink; */
+    height: 100%;
+}
+
+#top .topLine {
+    position: absolute;
+    width: 402px;
+    height: 4px;
+    background-color: #fff;
+    top: 218px;
+}
+#top .logo,#top .logoTitle,#top .btmLine ,#top .btmLine > div,#ucLogin,#top .topLine{
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+}
+
+#top .logo {
+    width: 414px;
+    height: 138px;
+    background: url(../img/logo1.png) no-repeat;
+    background-size: 414px 138px;
+    top: -158px;
+}
+
+#top .logoTitle {
+    width: 211px;
+    height: 33px;
+    background: url(../img/logo2.png) no-repeat;
+    background-size: 211px  33px;
+    top: 16px;
+}
+
+#top .btmLine {
+    width: 235px;
+    height: 3px;
+    background-color: #EBEDF0;
+    top: 531px;
+}
+
+#top .btmLine > div{
+    position: absolute;
+    font-size: 36px;
+    width: 168px;
+    height: 71px;
+    border-radius: 4px;
+    border: 1px solid #43464A;
+    background-color: #EBEDF0;
+    color:#43464A;
+    text-align: center;
+    line-height: 71px;
+}
+#top .btmLine > div:hover {
+    cursor: pointer;
+}
+
+#top .btnLogin {
+    top: -105px;
+}
+
+#top .btnRegist {
+    top: 34px;
+}
+
+#ucLoginShadow {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    background: #000;
+    opacity: 0.5;
+    display: none;
+}
+
+#ucLogin {
+    position: fixed;
+    width: 758px;
+    height: 410px;
+    background: #EBEDF0;
+    padding: 72px 182px 12px 151px;
+    box-sizing: border-box;
+    top: 157px;
+    display: none;
+}
+
+#ucLogin:after {
+    content: "用户登录";
+    position: absolute;
+    top: 34px;
+    left: 30px;
+    color: #43464A;
+    font: 100 36px '方正准圆-标准';
+}
+
+#ucLoginBody {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#errorMsg {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    padding-left: 60px;
+    color: #FD0000;
+    font-size: 14px;
+    height: 20px;
+}
+#ucLoginBody .item {
+    position: relative;
+}
+
+#ucLoginBody .username {
+    top: 20px;
+}
+
+#ucLoginBody .password {
+    top: 91px;
+}
+
+#ucLoginBody .identify {
+    top: 172px;
+}
+
+#ucLoginBody #check {
+    width: 145px;
+}
+
+#checkCode{
+    position: absolute;
+    left: 235px;
+    width: 141px;
+    height: 56px;
+}
+
+#ucLoginBody input,#ucLoginBody .item>span{
+    position: absolute;
+}
+
+#ucLoginBody .item>input{
+    box-sizing: border-box;
+    width: 366px;
+    height: 56px;
+    margin-left: 60px;
+    border: 1px solid rgba(187, 187, 187, 1);
+    font-size: 28px;
+    text-align: left;
+    font-family: Microsoft Yahei;
+    color: #43464A;
+    padding-left: 5px;
+}
+
+#ucLoginBody .item>span {
+    top: 11px;
+    width: 30px;
+    height: 30px;
+    /*background-color: black;*/
+    font-size: 30px;
+}
+#ucLoginBody .item .refresh {
+    right: 0;
+}
+
+#ucLoginBody #submit {
+    left: 73px;
+    bottom: 0px;
+    width: 285px;
+    height: 56px;
+    border-radius: 4px;
+    background-color: rgba(67, 70, 74, 1);
+    color: rgba(255, 255, 255, 1);
+    font-size: 28px;
+    text-align: center;
+    font-family: Microsoft Yahei;
+    border: 1px solid rgba(187, 187, 187, 1);
+}
+
+#close {
+    position: absolute;
+    font-size: 50px;
+    top:-20px;
+    right: -69px;
+    transform: translateX(-100%);
+    width: 50px;
+    height: 50px;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 25px;
+}
+
+
+
+
+
+

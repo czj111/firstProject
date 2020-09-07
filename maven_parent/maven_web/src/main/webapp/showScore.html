@@ -1,0 +1,167 @@
+
+<script>
+	$(function(){
+	    var value=window.location.hash;
+	    var val=value.substr(3);
+	    if(val==null || val=="")
+		{
+            show();
+		}
+        else{
+            var parameters=val.split("&");
+            for(var i=0;i<parameters.length;i++)
+			{
+			    parameters[i]=parameters[i].split("=");
+			}
+            if(parameters[0][0]=="fre")
+			{
+			    showContent(parameters[0][1]);
+			}
+
+		}
+	});
+
+    function changeHref(fre) {
+	location.href="index.html#3&fre="+fre;
+}
+
+    /**
+	 * 展示所有测试结果
+     */
+	function show() {
+        $.ajax({
+            type:"POST",
+            url:"all/showExamScore",
+            success:function(data){
+                if(data.length==0)
+                {
+                    alert("还没有考试信息");
+                }
+                else
+                {
+                    var content="";
+                    for(var i=0;i<data.length;i++)
+                    {
+                        content=content+"<tr>\n" +
+                            "\t\t\t<td>"+data[i].frequency+"</td>\n" +
+                            "\t\t\t<td>"+data[i].time+"</td>\n" +
+                            "\t\t\t<td>"+data[i].score+"</td>\n" +
+                            "\t\t\t<td><a href='javascript:changeHref("+data[i].frequency+")'>查看</a></td>\n" +
+                            "\t\t</tr>";
+                    }
+                    $("#showScore-content").html(content);
+                }
+            }
+        });
+	}
+
+	function retur() {
+		location.href="index.html#3";
+    }
+    /**
+     * 展示测试内容
+     */
+    function showContent(fre) {
+		$.ajax({
+			type:"POST",
+			url: "all/showExamContent",
+			data:{fre:fre},
+			success:function (data) {
+                var content="";
+                console.log(data);
+                content=content+'<div class="show-score">\n' +
+                    '\t\t<i>本次考试成绩</i>\n' +
+                    '\t\t<span>'+data['examScore'].score+'</span>\n' +
+                    '\t\t<div>'+data['examScore'].time+'</div>\n' +
+                    '\t</div>';
+                content=content+"<div class='single'>单选</div>";
+                for(var i=0;i<10;i++)
+                {
+                    if(data['examThemes'][i]['userAnswer']=='undefined')
+                    {
+                        data['examThemes'][i]['userAnswer']='';
+                    }
+                    content=content+'<div class="subject-content">\n' +
+                        '\t\t<p class="subject-question">'+(i+1)+'、'+data['examThemes'][i]['theme']+'</p>\n' +
+                        '\t\t<div class="subject-options">\n' +
+                        '\t\t\t<div class="subject-options-group">\n' +
+                        '\t\t\t\t<span class="control-lable">A</span>\n' +
+                        '\t\t\t\t<span class="control-content">'+data['examThemes'][i]['answerA']+'</span>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t\t<div class="subject-options-group">\n' +
+                        '\t\t\t\t<span class="control-lable">B</span>\n' +
+                        '\t\t\t\t<span class="control-content">'+data['examThemes'][i]['answerB']+'</span>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t\t<div class="subject-options-group">\n' +
+                        '\t\t\t\t<span class="control-lable">C</span>\n' +
+                        '\t\t\t\t<span class="control-content">'+data['examThemes'][i]['answerC']+'</span>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t\t<div class="subject-options-group">\n' +
+                        '\t\t\t\t<span class="control-lable">D</span>\n' +
+                        '\t\t\t\t<span class="control-content">'+data['examThemes'][i]['answerD']+'</span>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t</div>\n' +
+						'\t\t<div class="show-choose">'+
+                        '\t\t<p class="subject-userAnswer">'+'你的选择：'+data['examThemes'][i]['userAnswer']+'</p>\n' +
+                        '\t\t<p class="subject-answer">'+'正确答案：'+data['examThemes'][i]['answer']+'</p>\n' +
+                        '\t\t</div>\n' +
+                        '\t</div>';
+
+
+                }
+                content=content+"<div class='multiply'>多选</div>";
+                for(var i=10;i<20;i++)
+                {
+                    if(data['examThemes'][i]['userAnswer']=='undefined')
+					{
+                        data['examThemes'][i]['userAnswer']='';
+					}
+                    content=content+'<div class="subject-content">\n' +
+                        '\t\t<p class="subject-question">'+(i+1)+'、'+data['examThemes'][i]['theme']+'</p>\n' +
+                        '\t\t<div class="subject-options">\n' +
+                        '\t\t\t<div class="subject-options-group">\n' +
+                        '\t\t\t\t<span class="control-lable">A</span>\n' +
+                        '\t\t\t\t<span class="control-content">'+data['examThemes'][i]['answerA']+'</span>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t\t<div class="subject-options-group">\n' +
+                        '\t\t\t\t<span class="control-lable">B</span>\n' +
+                        '\t\t\t\t<span class="control-content">'+data['examThemes'][i]['answerB']+'</span>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t\t<div class="subject-options-group">\n' +
+                        '\t\t\t\t<span class="control-lable">C</span>\n' +
+                        '\t\t\t\t<span class="control-content">'+data['examThemes'][i]['answerC']+'</span>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t\t<div class="subject-options-group">\n' +
+                        '\t\t\t\t<span class="control-lable">D</span>\n' +
+                        '\t\t\t\t<span class="control-content">'+data['examThemes'][i]['answerD']+'</span>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t</div>\n' +
+                        '\t\t<div class="show-choose">'+
+                        '\t\t<p class="subject-userAnswer">'+'你的选择：'+data['examThemes'][i]['userAnswer']+'</p>\n' +
+                        '\t\t<p class="subject-answer">'+'正确答案：'+data['examThemes'][i]['answer']+'</p>\n' +
+                        '\t\t</div>\n' +
+                        '\t</div>';
+                }
+                content=content+"<a href='javascript:retur()'>返回</a>";
+                console.log("-------------------------");
+                $($(".function")[0]).html(content);
+            }
+		});
+    }
+</script>
+
+<div class="function">
+	<table class="table table-striped" id="showScore">
+		<thead>
+		<tr>
+			<td>测试次数</td>
+			<td>提交时间</td>
+			<td>成绩</td>
+			<td>查看</td>
+		</tr>
+		</thead>
+		<tbody id="showScore-content">
+		</tbody>
+	</table>
+
+</div>

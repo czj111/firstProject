@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>创建题库</title>
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script>
+		$(function(){
+		    $("#createTableBtn").click(createTable);
+		})
+		function createTable()
+		{
+            var name=$("#createTable").val();
+            if(""==name || null==name)
+			{
+			    $("#error").text("请输入题库名");
+			}
+            else {
+                $.ajax({
+                    type: "GET",
+                    url: "manager/createTableServlet",
+                    data: {name: name},
+                    success: function (data) {
+                        alert(data.errorMsg);
+                    }
+                })
+            }
+		}
+	</script>
+	<style>
+		.createTable-content {
+			width: 500px;
+			margin: 50px auto 0;
+		}
+		#error {
+			height: 30px;
+			line-height: 30px;
+		}
+	</style>
+</head>
+<body>
+<div><a href="manager.html">首页</a></div>
+<div class="createTable-content">
+	<p id="error"></p>
+	<input id="createTable">
+	<button id="createTableBtn">创建题库</button>
+</div>
+</body>
+</html>

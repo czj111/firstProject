@@ -1,0 +1,77 @@
+<!-- 头部 start -->
+<script>
+    $(function(){
+        $.ajax({
+            type:"POST",
+             async:false,
+            dataType:"json",
+            url:"user/userName",
+            success:function(data)
+            {
+                if(data.flag) {
+                    var text = data.errorMsg;
+                    $("#username_login").html(text);
+
+                }
+
+            }
+        });
+        var time=["天","一","二","三","四","五","六"];
+        setInterval(function(){
+            var date=new Date();
+            var month=date.getMonth()+1;
+            $("#time-ym").html("星期"+time[date.getDay()]+date.getFullYear()+"年"+month+"月"+date.getDate()+"日");
+            $("#time-ms").html(getTime());
+        },1000);
+        $("#hover-login").hover(function(){
+            $("#dropdown-login").show();
+        })
+        $("#hover-login").mouseleave(function(){
+            $("#dropdown-login").hide();
+        })
+    });
+    function getTime(){
+        var date=new Date();
+        var h=date.getHours();
+        h=h<10 ? "0"+h : h;
+        var m=date.getMinutes();
+        m=m<10 ? "0"+m : m;
+        var s=date.getSeconds();
+        s=s<10 ? "0"+s : s;
+        return h+":"+m+":"+s;
+    }
+    function Exit()
+    {
+        $.ajax({
+            type:"POST",
+            async: false,
+            url:"user/exit",
+            success:function(){
+              location.href="login.html";
+            }
+        });
+    }
+
+</script>
+    <header id="header">
+        <div class="logo"></div>
+        <div class="time">
+            <span class="time-logo glyphicon glyphicon-time"></span>
+            <span class="nowTime">
+                <i id="time-ym"></i>
+                <i id="time-ms"></i>
+            </span>
+        </div>
+        <div class="login">
+            <div id="hover-login">
+                <span id="username_login"></span>
+                <div id="dropdown-login">
+                    <span class="glyphicon glyphicon-log-out"></span>
+                    <a href="javascript:Exit();">退出</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- 头部 end -->
+
+    

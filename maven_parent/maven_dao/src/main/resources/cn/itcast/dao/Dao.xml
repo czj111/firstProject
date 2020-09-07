@@ -1,0 +1,17 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itcast.dao.Dao">
+    <select id="exitUserName" resultType="INT" parameterType="String">
+        select count(*) from tab_user where username=#{username}
+    </select>
+    <insert id="addUser" parameterType="User">
+        insert into tab_user(username,password,birthday,sex,email,status,code) values(#{username},#{password},date_format(#{birthday},'%Y-%m-%d'),#{sex},#{email},#{status},#{code})
+    </insert>
+    <update id="activeCode" parameterType="String">
+        update tab_user set status='Y' where code=#{code} and status='N'
+    </update>
+    <select id="exitUser" parameterType="User" resultType="User">
+        select * from tab_user where username=#{username} and password=#{password};
+    </select>
+</mapper>

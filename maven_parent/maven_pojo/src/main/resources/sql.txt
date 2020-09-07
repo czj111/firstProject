@@ -1,0 +1,68 @@
+/*==============================================================*/
+/* Table: 用户表 (存储用户信息)
+/*==============================================================*/
+create table tab_user(
+USERNAME VARCHAR(100) PRIMARY KEY,
+PASSWORD VARCHAR(32) not null,
+BIRTHDAY DATE,
+SEX CHAR(2),
+EMAIL VARCHAR(100),
+STATUS CHAR(1),
+CODE VARCHAR(50)
+)
+
+/*==============================================================*/
+/* Table: files (存储已有文件名)
+/*==============================================================*/
+create table tab_filename(
+NAME VARCHAR(100) PRIMARY KEY
+)
+
+*==============================================================*/
+/* Table: 用户功能表 (描述用户拥有的功能)
+/*==============================================================*/
+create table tab_function(
+cid nvarchar(2),
+funcName nvarchar(20)
+)
+
+
+/*==============================================================*/
+/* Table: 创建题库表 题库名（有相应题库）
+/*==============================================================*/
+create table tab_questbank(
+bankName nvarchar(20)
+)
+
+/*==============================================================*/
+/* Table: 用户测试数据（保存用户测试数据）
+/*==============================================================*/
+create table user_test(
+username VARCHAR(32),
+frequency int,
+time VARCHAR(32),
+score int,
+primary key(username,frequency),
+foreign key(username) references tab_user(username)
+)
+create table user_testdata(
+username VARCHAR(32),
+frequency int,
+theme nvarchar(100),
+answerA nvarchar(100),
+answerB nvarchar(100),
+answerC nvarchar(100),
+answerD nvarchar(100),
+answer nvarchar(10),
+userAnswer nvarchar(10),
+primary key(username,frequency),
+foreign key(username) references tab_user(username)
+)
+
+/*==============================================================*/
+/* Table: 管理员表 (管理员用户名和密码)
+/*==============================================================*/
+create table administrator(
+manager VARCHAR(32) primary key,
+password VARCHAR(20) not null
+)

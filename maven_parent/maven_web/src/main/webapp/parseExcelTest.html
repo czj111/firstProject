@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>填充题库试题</title>
+	<script src="js/jquery-3.3.1.js"></script>
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script>
+		$(function(){
+            $.ajax({
+                type:"POST",
+                url:"manager/problemName",
+                success:function(data){
+                    var chooseProblem="";
+                    for(var i=0;i<data.length;i++)
+                    {
+                        chooseProblem=chooseProblem+"<option>"+data[i].name+"</option>";
+                    }
+                    $("#chooseProblem").html(chooseProblem);
+                }
+            });
+		    $("#parseForm").submit(parseExcel);
+		});
+		function parseExcel(){
+            var data = new FormData($("#parseForm")[0]);
+            $.ajax({
+                type:"POST",
+				async: false,
+				url:"manager/parseExcelServlet",
+				data:data,
+                processData: false,
+                contentType: false,
+				success:function(data){
+                    if(data.flag) {
+                        alert("提交成功");
+                    }
+				}
+            });
+            return false;
+		}
+	</script>
+	<style>
+		#parseForm {
+			width: 600px;
+			margin: 100px auto 0;
+		}
+		.submit {
+			margin: 10px 0px 0 100px;
+		}
+	</style>
+</head>
+<body>
+<div><a href="manager.html">首页</a></div>
+<form id="parseForm">
+	<span class="project">选择题库:</span>
+	<select id="chooseProblem" name="choose">
+	</select>
+	<input type="file" name="file">
+	<br>
+	<input type="submit" class="submit">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itcast.dao.ManagerDao">
+    <select id="login" resultType="INT" parameterType="Manager">
+        select count(*) from administrator where manager=#{manager} and password=#{password};
+    </select>
+    <insert id="addFileName" parameterType="String">
+        insert into tab_filename(name) values(#{name})
+    </insert>
+</mapper>

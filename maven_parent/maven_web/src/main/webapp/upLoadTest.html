@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>上传文件测试</title>
+	<script src="js/jquery-3.3.1.js"></script>
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script>
+		$(function(){
+		    $("#submit").click(uploadFile);
+		    $("#projectName").blur(projectName);
+            $("#examTime").blur(examTime);
+		});
+		function uploadFile(){
+            $("#uploadFile").submit(false);
+		    if(projectName() && examTime() && file())
+			{
+                var data=new FormData($("#uploadFile")[0]);
+                var flag=null;
+                var message=null;
+                $.ajax({
+                    type:"POST",
+                    url:"manage/upLoad",
+                    data:data,
+					async:false,
+                    processData: false,
+                    contentType: false,
+					success: function () {
+						flag=true;
+						message="文件上传成功";
+                    }
+                });
+                // console.log(flag);
+                if(flag)
+				{
+                    $("#file").val("");
+                    alert(message);
+				}
+			}
+		}
+		function projectName(){
+		    var projectName=$("#projectName").val();
+		    if(projectName=="" )
+			{
+                $("#error_project").text("请输入考卷科目");
+                return false;
+			}
+		    else
+			{
+                $("#error_project").text("");
+                return true;
+			}
+		}
+        function examTime(){
+            var examTime=$("#examTime").val();
+            if(examTime=="")
+            {
+                $("#error_time").text("请输入考卷年份");
+                return false;
+            }
+            else
+            {
+                $("#error_time").text("");
+                return true;
+            }
+        }
+        function file() {
+		   var file=$("#file").val();
+		   if(file=="")
+		   {
+		       $("#error_file").text("请上传文件");
+		       return false;
+		   }
+		   else
+		   {
+               $("#error_file").text("");
+               return true;
+		   }
+		}
+	</script>
+	<style>
+		#uploadFile {
+			width: 600px;
+			margin: 50px auto 0;
+		}
+		.error {
+			height: 30px;
+			line-height: 30px;
+			margin: 5px 0 0 0;
+		}
+		#submit{
+			margin-left: 127px;
+		}
+	</style>
+</head>
+<body>
+<div><a href="manager.html">首页</a></div>
+<form id="uploadFile">
+	<p id="error_project" class="error"></p>
+	<span>试卷科目：</span><input id="projectName" name="projectName">
+	<p id="error_time" class="error"></p>
+	<span>试卷时间：</span><input id="examTime" name="examTime">
+	<input type="file" name="file" id="file" accep=".doc,.docx,image/*" >
+	<p id="error_file" class="error"></p>
+	<button id="submit">提交</button>
+</form>
+<!--<a href="images/test2020-4-161587047506323upLoadTest.txt">xiazai</a>-->
+</body>
+</html>
