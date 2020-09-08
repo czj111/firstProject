@@ -7,4 +7,6 @@ public interface ServiceManager {
     public ResultInfo login(Manager manager);
 
     public void addFileName(String name);
+
+    public void createTable(String name);
 }

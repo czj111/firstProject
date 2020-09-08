@@ -66,3 +66,15 @@ create table administrator(
 manager VARCHAR(32) primary key,
 password VARCHAR(20) not null
 )
+/*==============================================================*/
+/* Table: 题库表
+/*==============================================================*/
+create table questbank(
+ theme nvarchar(100),
+ answerA nvarchar(100),
+ answerB nvarchar(100),
+ answerC nvarchar(100),
+ answerD nvarchar(100),
+ answer nvarchar(10),
+ type char(2)
+ )

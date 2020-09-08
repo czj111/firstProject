@@ -1,6 +1,7 @@
 package cn.itcast.controller;
 
 
+import cn.itcast.domain.ResultInfo;
 import cn.itcast.service.ServiceManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,23 @@ public class ManagerFunction {
     @ResponseBody
     public void upLoad(String projectName, String examTime, MultipartFile file, HttpServletRequest request) throws IOException {
         String name=projectName+examTime+System.currentTimeMillis()+file.getOriginalFilename();
-        file.transferTo(new File("E:\\IdeaProjects\\travel\\maven_parent\\maven_web\\src\\main\\webapp\\files\\"+name));
+        String realPath = request.getServletContext().getRealPath("files");
+        File f1=new File(realPath,name);
+        if(!f1.getParentFile().exists())
+        {
+            f1.getParentFile().mkdirs();
+        }
+        f1.createNewFile();
+        file.transferTo(f1);
         service.addFileName(name);
+    }
+
+    @RequestMapping("/createTable")
+    @ResponseBody
+    public ResultInfo createTable(String name){
+        ResultInfo resultInfo=new ResultInfo();
+        service.createTable(name);
+        resultInfo.setErrorMsg("创建成功！");
+        return resultInfo;
     }
 }

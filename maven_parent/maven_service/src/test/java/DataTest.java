@@ -1,8 +1,7 @@
 import cn.itcast.dao.Dao;
+import cn.itcast.dao.ManagerDao;
 import cn.itcast.dao.SAndDTest;
-import cn.itcast.domain.Manager;
-import cn.itcast.domain.ResultInfo;
-import cn.itcast.domain.User;
+import cn.itcast.domain.*;
 import cn.itcast.service.ServiceManager;
 import cn.itcast.service.ServiceUser;
 import org.junit.Test;
@@ -12,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations ={"classpath:applicationContext-dao.xml","classpath:applicationContext-service.xml"})
@@ -23,7 +23,9 @@ public class DataTest {
     @Autowired
     Dao dao;
     @Autowired
-    ServiceUser service;
+    ManagerDao managerdao;
+    @Autowired
+    ServiceUser suser;
     @Autowired
     ServiceManager smanager;
     @Test
@@ -45,16 +47,29 @@ public class DataTest {
         user.setUsername("zhangsan");
         user.setPassword("12345678");
         user.setBirthday("2017-11-15 21:45:00");
-        service.registerUser(user);
+        suser.registerUser(user);
     }
 //    测试管理员功能
     @Test
     public void test3() {
-        Manager manager=new Manager();
-        manager.setManager("czj");
-        manager.setPassword("12345678");
-        ResultInfo login = smanager.login(manager);
-        System.out.println(login);
+        managerdao.createTable("test");
+    }
+
+//    测试分页功能
+    @Test
+    public void test4() {
+        Paging page =new Paging();
+        page.setMsg("");
+        page.setNowPage(1);
+        page.setItems(2);
+        Paging all = suser.findAll(page);
+        List<Files> pages = all.getPages();
+        for(Files f:pages)
+        {
+            System.out.println(f);
+        }
+        System.out.println(all);
+
     }
 
 }

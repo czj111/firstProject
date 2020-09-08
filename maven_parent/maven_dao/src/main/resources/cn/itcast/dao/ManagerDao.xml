@@ -8,4 +8,18 @@
     <insert id="addFileName" parameterType="String">
         insert into tab_filename(name) values(#{name})
     </insert>
+    <update id="createTable" parameterType="String">
+        create table ${name}(
+               theme nvarchar(100),
+               answerA nvarchar(100),
+               answerB nvarchar(100),
+               answerC nvarchar(100),
+               answerD nvarchar(100),
+               answer nvarchar(10),
+               type char(2)
+                )
+    </update>
+    <insert id="upQuestName" parameterType="String">
+        insert into tab_questbank values(#{name})
+    </insert>
 </mapper>

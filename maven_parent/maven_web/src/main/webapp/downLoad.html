@@ -49,7 +49,7 @@
         var pagintion="";//页码内容
         $.ajax({
             type: "POST",
-            url: "user/downLoad",
+            url: "userFunc/downLoad",
             data: {nowPage:nowPage,items:4,msg:msg},
             async: false,
             success:function(data){

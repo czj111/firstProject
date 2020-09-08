@@ -1,9 +1,6 @@
 package cn.itcast.service;
 
-import cn.itcast.domain.ExamTheme;
-import cn.itcast.domain.Function;
-import cn.itcast.domain.ResultInfo;
-import cn.itcast.domain.User;
+import cn.itcast.domain.*;
 
 import java.util.List;
 
@@ -45,4 +42,11 @@ public interface ServiceUser {
      * 获取测试题目
      */
     List<ExamTheme> acceptExam(String name);
+
+    /**
+     * 查询所有文件名
+     * @param page
+     * @return
+     */
+    Paging findAll(Paging page);
 }

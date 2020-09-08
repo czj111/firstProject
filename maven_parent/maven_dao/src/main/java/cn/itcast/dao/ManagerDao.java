@@ -2,6 +2,7 @@ package cn.itcast.dao;
 
 import cn.itcast.domain.ExamTheme;
 import cn.itcast.domain.Manager;
+import org.apache.ibatis.annotations.Param;
 
 public interface ManagerDao {
     /**
@@ -24,7 +25,12 @@ public interface ManagerDao {
     void addProblem(String tableName, ExamTheme examTheme);
 
     /**
-     * 创建题库,并记录题库名
+     * 创建题库
      */
-    boolean createTable(String name);
+    void createTable(@Param("name") String name);
+
+    /**
+     * 更新题库名
+     */
+    void upQuestName(String name);
 }

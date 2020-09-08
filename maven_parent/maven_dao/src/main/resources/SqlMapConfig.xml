@@ -10,11 +10,11 @@
         <package name="cn.itcast.domain"></package>
     </typeAliases>
 
-    <!--<plugins>-->
-        <!--<plugin interceptor="com.github.pagehelper.PageHelper">-->
-            <!--&lt;!&ndash;指定方言，表示用的什么数据库&ndash;&gt;-->
-            <!--<property name="dialect" value="mysql"></property>-->
-        <!--</plugin>-->
-    <!--</plugins>-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!--指定方言，表示用的什么数据库-->
+            <property name="dialect" value="mysql"></property>
+        </plugin>
+    </plugins>
 
 </configuration>

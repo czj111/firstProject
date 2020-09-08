@@ -18,7 +18,7 @@
             else {
                 $.ajax({
                     type: "GET",
-                    url: "manager/createTableServlet",
+                    url: "manage/createTable",
                     data: {name: name},
                     success: function (data) {
                         alert(data.errorMsg);
