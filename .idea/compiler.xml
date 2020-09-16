@@ -6,7 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="travel" />
+        <module name="maven_dao" />
+        <module name="maven_pojo" />
+        <module name="maven_service" />
+        <module name="maven_web" />
       </profile>
     </annotationProcessing>
   </component>

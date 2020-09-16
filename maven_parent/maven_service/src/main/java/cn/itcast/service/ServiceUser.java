@@ -49,4 +49,7 @@ public interface ServiceUser {
      * @return
      */
     Paging findAll(Paging page);
+
+
+    List<BankName> findbankName();
 }

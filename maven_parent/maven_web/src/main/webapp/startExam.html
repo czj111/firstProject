@@ -2,7 +2,7 @@
 	$(function(){
 	    $.ajax({
 			type:"POST",
-			url:"all/problemName",
+			url:"userFunc/bankName",
 			success:function(data){
 			    // console.log("-------------");
 			    var chooseProblem="";
@@ -10,7 +10,7 @@
                 // console.log(data[0].name);
                 for(var i=0;i<data.length;i++)
 				{
-				    chooseProblem=chooseProblem+"<option>"+data[i].name+"</option>";
+				    chooseProblem=chooseProblem+"<option>"+data[i].bankName+"</option>";
 				}
                 $("#chooseProblem").html(chooseProblem);
 			}
@@ -28,7 +28,7 @@
 		$.ajax({
 			type:"POST",
 			async:false,
-			url:"user/acceptExam",
+			url:"userFunc/acceptExam",
 			data:{name:value},
 			success:function(data){
                 if(data.flag)

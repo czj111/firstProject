@@ -1,8 +1,8 @@
 package cn.itcast.dao;
 
 
+import cn.itcast.domain.BankName;
 import cn.itcast.domain.Files;
-import cn.itcast.domain.problemName;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public interface AllDao {
     /**
      * 查询所有已建立的题库名
      */
-    List<problemName> findProblemName();
+    List<BankName> findProblemName();
 
     /**
      * 查询用户已测试的次数

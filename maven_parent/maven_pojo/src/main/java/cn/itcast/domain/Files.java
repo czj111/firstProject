@@ -2,6 +2,7 @@ package cn.itcast.domain;
 
 public class Files {
     private String name;
+    private String path;
 
     @Override
     public String toString() {
@@ -16,5 +17,13 @@ public class Files {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

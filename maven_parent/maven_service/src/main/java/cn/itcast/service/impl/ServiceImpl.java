@@ -103,6 +103,7 @@ public class ServiceImpl implements ServiceUser {
     }
 
     public List<ExamTheme> acceptExam(String name) {
+
         return null;
     }
 
@@ -121,5 +122,9 @@ public class ServiceImpl implements ServiceUser {
         page.setCountItems(pageInfo.getTotal());
 
         return page;
+    }
+
+    public List<BankName> findbankName() {
+        return userFunctionDao.findBankName();
     }
 }
