@@ -18,7 +18,7 @@
         <mybatis.version>3.4.6</mybatis.version>
         <springmvc.version>5.2.5.RELEASE</springmvc.version>
         <spring.version>5.2.5.RELEASE</spring.version>
-        <jackson.version>2.9.0</jackson.version>
+        <jackson.version>2.12.7.1</jackson.version>
     </properties>
 
     <!--版本锁定-->
