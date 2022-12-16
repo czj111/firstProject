@@ -16,7 +16,7 @@
     <packaging>pom</packaging>
     <properties>
         <mybatis.version>3.4.6</mybatis.version>
-        <springmvc.version>5.2.5.RELEASE</springmvc.version>
+        <springmvc.version>5.2.20.RELEASE</springmvc.version>
         <spring.version>5.2.5.RELEASE</spring.version>
         <jackson.version>2.9.0</jackson.version>
     </properties>
